@@ -1,0 +1,61 @@
+version: "3.8"
+name: car_app_compose
+services:
+  postgres:
+    image: postgres:16.2
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: car_app
+      PGDATA: /data/postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: rezam578@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8090:80"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.2
+    container_name: redis_container
+    command: ["redis-server", "/etc/redis/redis.conf"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/redis.conf:/etc/redis/redis.conf
+      - redis:/etc/redis.conf
+      - redis:/data
+    networks:
+        - app_network
+    restart: unless-stopped
+
+
+
+volumes:
+  postgres:
+  redis:
+  pgadmin:
+  logs:
+
+
+networks:
+  app_network:
+    driver: bridge
