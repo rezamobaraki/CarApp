@@ -1,11 +1,15 @@
 package api
 
 import (
-	"github.com/MrRezoo/CarApp/src/api/routers"
+	"fmt"
+	"github.com/MrRezoo/CarApp/api/routers"
+	"github.com/MrRezoo/CarApp/config"
+
 	"github.com/gin-gonic/gin"
 )
 
 func InitServer() {
+	cfg := config.GetConfig()
 	engine := gin.New()
 	engine.Use(gin.Logger(), gin.Recovery())
 
@@ -16,5 +20,5 @@ func InitServer() {
 		routers.Health(health)
 	}
 
-	engine.Run(":5005")
+	engine.Run(fmt.Sprintf(":%s", cfg.Server.Port))
 }

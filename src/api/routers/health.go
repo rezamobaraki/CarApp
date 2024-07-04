@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"github.com/MrRezoo/CarApp/src/api/handlers"
+	"github.com/MrRezoo/CarApp/api/handlers"
 	"github.com/gin-gonic/gin"
 )
 
