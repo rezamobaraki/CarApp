@@ -29,5 +29,8 @@ func InitServer() {
 		routers.Health(healthRouter)
 	}
 
-	engine.Run(fmt.Sprintf(":%s", cfg.Server.Port))
+	err := engine.Run(fmt.Sprintf(":%s", cfg.Server.Port))
+	if err != nil {
+		panic(err)
+	}
 }
