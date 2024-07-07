@@ -3,19 +3,25 @@ package api
 import (
 	"fmt"
 	"github.com/MrRezoo/CarApp/api/routers"
+	"github.com/MrRezoo/CarApp/api/validations"
 	"github.com/MrRezoo/CarApp/config"
-
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
 func InitServer() {
 	cfg := config.GetConfig()
 	engine := gin.New()
 	engine.Use(gin.Logger(), gin.Recovery())
+	val, ok := binding.Validator.Engine().(*validator.Validate)
+	if ok {
+		val.RegisterValidation("iranian_mobile_number", validations.ValidateIranianMobile)
+		val.RegisterValidation("password", validations.ValidatePassword)
+	}
 
 	api := engine.Group("/api/")
 	v1 := api.Group("/v1/")
-
 	{
 		healthRouter := v1.Group("/health")
 		testRouter := v1.Group("/test")

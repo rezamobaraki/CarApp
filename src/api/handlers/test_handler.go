@@ -10,6 +10,22 @@ type Header struct {
 	Browser string `header:"User-Agent" binding:"required"`
 }
 
+type Query struct {
+	Id   string `form:"id"`
+	Name string `form:"name"`
+}
+
+type BodyJson struct {
+	Name   string `json:"name" binding:"required,alpha,min=4,max=15"`
+	Age    int    `json:"age" binding:"required,numeric,min=1,max=100"`
+	Mobile string `form:"mobile" binding:"required,iranian_mobile_number"`
+}
+
+type BodyForm struct {
+	Name string `form:"name" binding:"required"`
+	Age  int    `form:"age" binding:"required"`
+}
+
 type TestHandler struct{}
 
 func NewTestHandler() *TestHandler {
@@ -82,11 +98,6 @@ func (h *TestHandler) TestQueryBinder1(context *gin.Context) {
 	})
 }
 
-type Query struct {
-	Id   string `form:"id"`
-	Name string `form:"name"`
-}
-
 func (h *TestHandler) TestQueryBinder2(context *gin.Context) {
 	query := Query{}
 	_ = context.BindQuery(&query)
@@ -96,19 +107,16 @@ func (h *TestHandler) TestQueryBinder2(context *gin.Context) {
 	})
 }
 
-type BodyJson struct {
-	Name string `json:"name" binding:"required"`
-	Age  int    `json:"age" binding:"required"`
-}
-
-type BodyForm struct {
-	Name string `form:"name" binding:"required"`
-	Age  int    `form:"age" binding:"required"`
-}
-
 func (h *TestHandler) TestBodyBinder1(context *gin.Context) {
 	body := BodyJson{}
-	_ = context.ShouldBindJSON(&body)
+	err := context.ShouldBindJSON(&body)
+	if err != nil {
+		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+
+	}
 	context.JSON(http.StatusOK, gin.H{
 		"message": "Test BodyJson Binder 1",
 		"body":    body,
