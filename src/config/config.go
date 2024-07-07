@@ -11,6 +11,7 @@ type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
 	Redis    RedisConfig
+	Password PasswordConfig
 }
 
 type ServerConfig struct {
@@ -35,6 +36,15 @@ type RedisConfig struct {
 	MinIdleConnections int
 	PoolSize           int
 	PoolTimeout        int
+}
+
+type PasswordConfig struct {
+	IncludeChars  bool
+	IncludeDigits bool
+	IncludeUppers bool
+	IncludeLowers bool
+	MinLength     int
+	MaxLength     int
 }
 
 func GetConfig() *Config {

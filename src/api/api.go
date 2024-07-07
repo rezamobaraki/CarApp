@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"github.com/MrRezoo/CarApp/api/middlewares"
 	"github.com/MrRezoo/CarApp/api/routers"
 	"github.com/MrRezoo/CarApp/api/validations"
 	"github.com/MrRezoo/CarApp/config"
@@ -13,7 +14,7 @@ import (
 func InitServer() {
 	cfg := config.GetConfig()
 	engine := gin.New()
-	engine.Use(gin.Logger(), gin.Recovery())
+	engine.Use(gin.Logger(), gin.Recovery() /*middlewares.TestMiddleware()*/, middlewares.LimitByRequestCount())
 	val, ok := binding.Validator.Engine().(*validator.Validate)
 	if ok {
 		val.RegisterValidation("iranian_mobile_number", validations.ValidateIranianMobile)
