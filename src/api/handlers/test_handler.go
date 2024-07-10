@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/MrRezoo/CarApp/api/helper"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -18,7 +19,7 @@ type Query struct {
 type BodyJson struct {
 	Name   string `json:"name" binding:"required,alpha,min=4,max=15"`
 	Age    int    `json:"age" binding:"required,numeric,min=1,max=100"`
-	Mobile string `form:"mobile" binding:"required,iranian_mobile_number"`
+	Mobile string `form:"mobile" binding:"required,mobile"`
 }
 
 type BodyForm struct {
@@ -37,6 +38,7 @@ func (h *TestHandler) Test(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{
 		"message": "Test Handler",
 	})
+	context.JSON(http.StatusOK, helper.GenerateBaseResponse("Test Handler", true, 0))
 }
 
 func (h *TestHandler) Users(context *gin.Context) {
@@ -44,15 +46,16 @@ func (h *TestHandler) Users(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{
 		"message": "Users Handler",
 	})
+	context.JSON(http.StatusOK, helper.GenerateBaseResponse("Users Handler", true, 0))
 }
 
 func (h *TestHandler) UserById(context *gin.Context) {
 
 	id := context.Param("id")
-	context.JSON(http.StatusOK, gin.H{
+	context.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "User By Id Handler",
 		"id":      id,
-	})
+	}, true, 0))
 }
 
 func (h *TestHandler) UserByUsername(context *gin.Context) {

@@ -1,6 +1,9 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/MrRezoo/CarApp/api/helper"
+	"github.com/gin-gonic/gin"
+)
 
 type HealthHandler struct{}
 
@@ -9,6 +12,6 @@ func NewHealthHandler() *HealthHandler {
 }
 
 func (h *HealthHandler) Health(context *gin.Context) {
-	context.JSON(200, "Boom Boom 💥")
+	context.JSON(200, helper.GenerateBaseResponse("Boom Boom 💥", true, 0))
 	return
 }

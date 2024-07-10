@@ -1,28 +1,30 @@
 package validations
 
 import (
-	"github.com/MrRezoo/CarApp/common"
+	"errors"
 	"github.com/go-playground/validator/v10"
-	"log"
-	"regexp"
 )
 
-func ValidateIranianMobile(validationField validator.FieldLevel) bool {
-	mobileNumber, isValidType := validationField.Field().Interface().(string)
-	if !isValidType {
-		return false
-	}
-	isValidFormat, err := regexp.MatchString(`^(\+98|0)?9\d{9}$`, mobileNumber)
-	if err != nil {
-		log.Println("Error validating Iranian mobile number: ", err)
-	}
-	return isValidFormat
+type ValidationError struct {
+	Property string `json:"property"`
+	Tag      string `json:"tag"`
+	Value    string `json:"value"`
+	Message  string `json:"message"`
 }
 
-func ValidatePassword(validationField validator.FieldLevel) bool {
-	value, isValidType := validationField.Field().Interface().(string)
-	if !isValidType {
-		return false
+func GetValidationErrors(err error) *[]ValidationError {
+	var validationErrors []ValidationError
+	var ve validator.ValidationErrors
+	if errors.As(err, &ve) {
+		for _, err := range err.(validator.ValidationErrors) {
+			validationErrors = append(validationErrors, ValidationError{
+				Property: err.Field(),
+				Tag:      err.Tag(),
+				Value:    err.Param(),
+				Message:  err.Error(),
+			})
+		}
+		return &validationErrors
 	}
-	return common.CheckPassword(value)
+	return nil
 }

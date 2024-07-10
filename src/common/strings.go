@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"regexp"
 	"time"
+	"unicode"
 )
 
 var (
@@ -56,12 +57,13 @@ func hasDigits(password string) bool {
 	return true
 }
 
-func hasUppers(password string) bool {
-	_, err := regexp.MatchString(`[A-Z]`, password)
-	if err != nil {
-		return false
+func hasUppers(s string) bool {
+	for _, char := range s {
+		if unicode.IsUpper(char) && unicode.IsLetter(char) {
+			return true
+		}
 	}
-	return true
+	return false
 }
 
 func hasLowers(password string) bool {

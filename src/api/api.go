@@ -14,11 +14,12 @@ import (
 func InitServer() {
 	cfg := config.GetConfig()
 	engine := gin.New()
+	engine.Use(middlewares.Cors(cfg))
 	engine.Use(gin.Logger(), gin.Recovery() /*middlewares.TestMiddleware()*/, middlewares.LimitByRequestCount())
 	val, ok := binding.Validator.Engine().(*validator.Validate)
 	if ok {
-		val.RegisterValidation("iranian_mobile_number", validations.ValidateIranianMobile)
-		val.RegisterValidation("password", validations.ValidatePassword)
+		val.RegisterValidation("mobile", validations.ValidateIranianMobile, true)
+		val.RegisterValidation("password", validations.ValidatePassword, true)
 	}
 
 	api := engine.Group("/api/")
