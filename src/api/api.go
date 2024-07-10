@@ -11,17 +11,17 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func InitServer() {
-	cfg := config.GetConfig()
+func InitServer(cfg *config.Config) {
 	engine := gin.New()
-	engine.Use(middlewares.Cors(cfg))
-	engine.Use(gin.Logger(), gin.Recovery() /*middlewares.TestMiddleware()*/, middlewares.LimitByRequestCount())
-	val, ok := binding.Validator.Engine().(*validator.Validate)
-	if ok {
-		val.RegisterValidation("mobile", validations.ValidateIranianMobile, true)
-		val.RegisterValidation("password", validations.ValidatePassword, true)
-	}
 
+	RegisterValidators()
+	RegisterMiddlewares(engine, cfg)
+	RegisterRoutes(engine)
+
+	engine.Run(fmt.Sprintf(":%s", cfg.Server.Port))
+}
+
+func RegisterRoutes(engine *gin.Engine) {
 	api := engine.Group("/api/")
 	v1 := api.Group("/v1/")
 	{
@@ -37,8 +37,18 @@ func InitServer() {
 		routers.Health(healthRouter)
 	}
 
-	err := engine.Run(fmt.Sprintf(":%s", cfg.Server.Port))
-	if err != nil {
-		panic(err)
+}
+
+func RegisterMiddlewares(engine *gin.Engine, cfg *config.Config) {
+	engine.Use(middlewares.Cors(cfg))
+	engine.Use(gin.Logger(), gin.Recovery() /*middlewares.TestMiddleware()*/, middlewares.LimitByRequestCount())
+}
+
+func RegisterValidators() {
+	val, ok := binding.Validator.Engine().(*validator.Validate)
+	if ok {
+		val.RegisterValidation("mobile", validations.ValidateIranianMobile, true)
+		val.RegisterValidation("password", validations.ValidatePassword, true)
 	}
+
 }
