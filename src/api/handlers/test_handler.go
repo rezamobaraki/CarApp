@@ -2,150 +2,196 @@ package handlers
 
 import (
 	"github.com/MrRezoo/CarApp/api/helper"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-type Header struct {
-	UserId  string `header:"UserId" binding:"required"`
-	Browser string `header:"User-Agent" binding:"required"`
+type header struct {
+	UserId  string
+	Browser string
 }
 
-type Query struct {
-	Id   string `form:"id"`
-	Name string `form:"name"`
+type personData struct {
+	FirstName    string `json:"first_name" binding:"required,alpha,min=4,max=10"`
+	LastName     string `json:"last_name" binding:"required,alpha,min=6,max=20"`
+	MobileNumber string `json:"mobile_number" binding:"required,mobile,min=11,max=11"`
 }
-
-type BodyJson struct {
-	Name   string `json:"name" binding:"required,alpha,min=4,max=15"`
-	Age    int    `json:"age" binding:"required,numeric,min=1,max=100"`
-	Mobile string `form:"mobile" binding:"required,mobile"`
+type TestHandler struct {
 }
-
-type BodyForm struct {
-	Name string `form:"name" binding:"required"`
-	Age  int    `form:"age" binding:"required"`
-}
-
-type TestHandler struct{}
 
 func NewTestHandler() *TestHandler {
 	return &TestHandler{}
 }
 
-func (h *TestHandler) Test(context *gin.Context) {
+func (h *TestHandler) Test(c *gin.Context) {
 
-	context.JSON(http.StatusOK, gin.H{
-		"message": "Test Handler",
+	c.JSON(http.StatusOK, gin.H{
+		"result": "Test",
 	})
-	context.JSON(http.StatusOK, helper.GenerateBaseResponse("Test Handler", true, 0))
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse("Test", true, 0))
+
 }
 
-func (h *TestHandler) Users(context *gin.Context) {
+func (h *TestHandler) Users(c *gin.Context) {
 
-	context.JSON(http.StatusOK, gin.H{
-		"message": "Users Handler",
-	})
-	context.JSON(http.StatusOK, helper.GenerateBaseResponse("Users Handler", true, 0))
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse("Users", true, 0))
+
 }
 
-func (h *TestHandler) UserById(context *gin.Context) {
+// UserById godoc
+// @Summary UserById
+// @Description UserById
+// @Tags Test
+// @Accept  json
+// @Produce  json
+// @Param id path int true "user id"
+// @Success 200 {object} helper.BaseHttpResponse "Success"
+// @Failure 400 {object} helper.BaseHttpResponse "Failed"
+// @Router /v1/test/user/{id}/ [get]
+func (h *TestHandler) UserById(c *gin.Context) {
 
-	id := context.Param("id")
-	context.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
-		"message": "User By Id Handler",
-		"id":      id,
+	id := c.Param("id")
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "UserById",
+		"id":     id,
+	}, true, 0))
+
+}
+
+func (h *TestHandler) UserByUsername(c *gin.Context) {
+
+	username := c.Param("username")
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result":   "UserByUsername",
+		"username": username,
 	}, true, 0))
 }
 
-func (h *TestHandler) UserByUsername(context *gin.Context) {
+func (h *TestHandler) Accounts(c *gin.Context) {
 
-	username := context.Param("username")
-	context.JSON(http.StatusOK, gin.H{
-		"message":  "User By Username Handler",
-		"username": username,
-	})
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "Accounts",
+	}, true, 0))
 }
 
-func (h *TestHandler) UserCreate(context *gin.Context) {
+func (h *TestHandler) AddUser(c *gin.Context) {
 
-	context.JSON(http.StatusOK, gin.H{
-		"message": "User Create Handler",
-	})
+	id := c.Param("id")
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "AddUser",
+		"id":     id,
+	}, true, 0))
 }
 
-func (h *TestHandler) TestHeaderBinder1(context *gin.Context) {
-	header := context.GetHeader("UserId")
-	context.JSON(http.StatusOK, gin.H{
-		"message": "Test Header Binder 1",
-		"Header":  header,
-	})
-}
+func (h *TestHandler) HeaderBinder1(c *gin.Context) {
+	userId := c.GetHeader("UserId")
 
-func (h *TestHandler) TestHeaderBinder2(context *gin.Context) {
-	header := Header{}
-	_ = context.BindHeader(&header)
-	context.JSON(http.StatusOK, gin.H{
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"result": "HeaderBinder1",
-		"Header": header,
-	})
+		"userId": userId,
+	}, true, 0))
+
 }
 
-func (h *TestHandler) TestQueryBinder1(context *gin.Context) {
-	ids := context.QueryArray("id")
-	name := context.Query("name")
-	context.JSON(http.StatusOK, gin.H{
-		"message": "Test Query Binder",
-		"id":      ids,
-		"name":    name,
-	})
+func (h *TestHandler) HeaderBinder2(c *gin.Context) {
+	header := header{}
+	_ = c.BindHeader(&header)
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "HeaderBinder1",
+		"header": header,
+	}, true, 0))
 }
 
-func (h *TestHandler) TestQueryBinder2(context *gin.Context) {
-	query := Query{}
-	_ = context.BindQuery(&query)
-	context.JSON(http.StatusOK, gin.H{
+func (h *TestHandler) QueryBinder1(c *gin.Context) {
+	id := c.Query("id")
+	name := c.Query("name")
+
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "QueryBinder1",
+		"id":     id,
+		"name":   name,
+	}, true, 0))
+}
+
+func (h *TestHandler) QueryBinder2(c *gin.Context) {
+	ids := c.QueryArray("id")
+	name := c.Query("name")
+
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"result": "QueryBinder2",
-		"query":  query,
-	})
+		"ids":    ids,
+		"name":   name,
+	}, true, 0))
 }
 
-func (h *TestHandler) TestBodyBinder1(context *gin.Context) {
-	body := BodyJson{}
-	err := context.ShouldBindJSON(&body)
+// UriBinder BodyBinder godoc
+// @Summary BodyBinder
+// @Description BodyBinder
+// @Tags Test
+// @Accept  json
+// @Produce  json
+// @Param id path int true "user id"
+// @Param name path string true "username"
+// @Success 200 {object} helper.BaseHttpResponse{validationErrors=any{}} "Success"
+// @Failure 400 {object} helper.BaseHttpResponse "Failed"
+// @Router /v1/test/binder/uri/{id}/{name}/ [post]
+// @Security AuthBearer
+func (h *TestHandler) UriBinder(c *gin.Context) {
+	id := c.Param("id")
+	name := c.Param("name")
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "UriBinder",
+		"id":     id,
+		"name":   name,
+	}, true, 0))
+}
+
+// BodyBinder godoc
+// @Summary BodyBinder
+// @Description BodyBinder
+// @Tags Test
+// @Accept  json
+// @Produce  json
+// @Param person body personData true "person data"
+// @Success 200 {object} helper.BaseHttpResponse{validationErrors=any{}} "Success"
+// @Failure 400 {object} helper.BaseHttpResponse "Failed"
+// @Router /v1/test/binder/body/ [post]
+// @Security AuthBearer
+func (h *TestHandler) BodyBinder(c *gin.Context) {
+	p := personData{}
+	err := c.ShouldBindJSON(&p)
 	if err != nil {
-		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
-		})
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil,
+				false, -1, err))
 		return
-
 	}
-	context.JSON(http.StatusOK, gin.H{
-		"message": "Test BodyJson Binder 1",
-		"body":    body,
-	})
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "BodyBinder",
+		"person": p,
+	}, true, 0))
 }
 
-func (h *TestHandler) TestFormBinder1(context *gin.Context) {
-	body := BodyForm{}
-	_ = context.Bind(&body)
-	context.JSON(http.StatusOK, gin.H{
-		"message": "Test Form Binder 1",
-		"body":    body,
-	})
+func (h *TestHandler) FormBinder(c *gin.Context) {
+	p := personData{}
+	_ = c.ShouldBind(&p)
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "FormBinder",
+		"person": p,
+	}, true, 0))
 }
 
-func (h *TestHandler) TestFileBinder1(context *gin.Context) {
-	file, _ := context.FormFile("file")
-	err := context.SaveUploadedFile(file, "uploads/"+file.Filename)
+func (h *TestHandler) FileBinder(c *gin.Context) {
+	file, _ := c.FormFile("file")
+	err := c.SaveUploadedFile(file, "file")
 	if err != nil {
-		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"message": err.Error(),
-		})
+		c.AbortWithStatusJSON(http.StatusInternalServerError,
+			helper.GenerateBaseResponseWithError(nil, false, -1, err))
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{
-		"message": "Test File Binder 1",
-		"file":    file.Filename,
-	})
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
+		"result": "FileBinder",
+		"file":   file.Filename,
+	}, true, 0))
 }

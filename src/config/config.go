@@ -2,10 +2,11 @@ package config
 
 import (
 	"errors"
-	"github.com/spf13/viper"
 	"log"
 	"os"
 	"time"
+
+	"github.com/spf13/viper"
 )
 
 type Config struct {
@@ -26,12 +27,15 @@ type CorsConfig struct {
 }
 
 type PostgresConfig struct {
-	Host     string
-	Port     string
-	User     string
-	Password string
-	DBName   string
-	SSLMode  string
+	Host               string
+	Port               string
+	User               string
+	Password           string
+	DBName             string
+	SSLMode            string
+	MaxIdleConnections int
+	MaxOpenConnections int
+	MaxLifetime        time.Duration
 }
 
 type RedisConfig struct {

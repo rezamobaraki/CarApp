@@ -30,3 +30,4 @@ n
 # custom
 *.log
 .idea
+.vscode

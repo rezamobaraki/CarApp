@@ -11,9 +11,12 @@ postgres:
   host: postgres_container
   port: 5432
   user: postgres
-  password: admin
+  password: password
   dbname: car_app
   sslMode: disable
+  maxIdleConnections: 15
+  maxOpenConnections: 100
+  maxLifetime: 5
 redis:
   host: redis_container
   port: 6379
@@ -24,8 +27,7 @@ redis:
   writeTimeout: 5
   poolSize: 10
   poolTimeout: 15
-  idleTimeout: 500
-  idleCheckFrequency: 500
+  idleCheckFrequency: 60
 Password:
   IncludeChars: true
   IncludeDigits: true

@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 name: car_app_compose
 services:
   postgres:
@@ -6,7 +6,7 @@ services:
     container_name: postgres_container
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: car_app
       PGDATA: /data/postgres
     ports:
@@ -41,8 +41,7 @@ services:
       - "6379:6379"
     volumes:
       - ./redis/redis.conf:/etc/redis/redis.conf
-      - redis:/etc/redis.conf
-      - redis:/data
+      - redis:/etc/redis
     networks:
       - app_network
     restart: unless-stopped

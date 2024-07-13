@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"context"
 	"github.com/MrRezoo/CarApp/config"
 	"github.com/go-redis/redis/v8"
 	"log"
@@ -10,7 +9,7 @@ import (
 
 var redisClient *redis.Client
 
-func InitRedis(config *config.Config) {
+func InitRedis(config *config.Config) error {
 	redisClient = redis.NewClient(&redis.Options{
 		Addr:               config.Redis.Host + ":" + config.Redis.Port,
 		Password:           config.Redis.Password,
@@ -24,15 +23,13 @@ func InitRedis(config *config.Config) {
 		IdleCheckFrequency: config.Redis.IdleCheckFrequency * time.Millisecond,
 	})
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	_, err := redisClient.Ping(ctx).Result()
+	_, err := redisClient.Ping(redisClient.Context()).Result()
 	if err != nil {
-		log.Printf("Failed to connect to Redis at %s:%s, error: %v", config.Redis.Host, config.Redis.Port, err)
-	} else {
-		log.Printf("Redis connected to %s:%s", config.Redis.Host, config.Redis.Port)
+		return err
 	}
+
+	log.Printf("Redis connected to %s:%s", config.Redis.Host, config.Redis.Port)
+	return nil
 
 }
 
