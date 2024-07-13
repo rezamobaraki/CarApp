@@ -1,0 +1,172 @@
+definitions:
+  handlers.personData:
+    properties:
+      first_name:
+        maxLength: 10
+        minLength: 4
+        type: string
+      last_name:
+        maxLength: 20
+        minLength: 6
+        type: string
+      mobile_number:
+        maxLength: 11
+        minLength: 11
+        type: string
+    required:
+    - first_name
+    - last_name
+    - mobile_number
+    type: object
+  helper.BaseHttpResponse:
+    properties:
+      code:
+        type: integer
+      error: {}
+      result: {}
+      success:
+        type: boolean
+      validation_errors:
+        items:
+          $ref: '#/definitions/validations.ValidationError'
+        type: array
+    type: object
+  validations.ValidationError:
+    properties:
+      message:
+        type: string
+      property:
+        type: string
+      tag:
+        type: string
+      value:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/health/:
+    get:
+      consumes:
+      - application/json
+      description: Check the health of the service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: Failed to validate the request
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "500":
+          description: internal server error
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.BaseHttpResponse'
+            - properties:
+                Error:
+                  items: {}
+                  type: array
+              type: object
+      summary: Health check
+      tags:
+      - Health
+  /v1/test/binder/body/:
+    post:
+      consumes:
+      - application/json
+      description: BodyBinder
+      parameters:
+      - description: person data
+        in: body
+        name: person
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.personData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.BaseHttpResponse'
+            - properties:
+                validationErrors:
+                  type: object
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: BodyBinder
+      tags:
+      - Test
+  /v1/test/binder/uri/{id}/{name}/:
+    post:
+      consumes:
+      - application/json
+      description: BodyBinder
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: username
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.BaseHttpResponse'
+            - properties:
+                validationErrors:
+                  type: object
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: BodyBinder
+      tags:
+      - Test
+  /v1/test/user/{id}/:
+    get:
+      consumes:
+      - application/json
+      description: UserById
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      summary: UserById
+      tags:
+      - Test
+swagger: "2.0"
