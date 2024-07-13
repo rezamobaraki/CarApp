@@ -11,6 +11,7 @@ import (
 
 type Config struct {
 	Server   ServerConfig
+	Logger   LoggerConfig
 	Cors     CorsConfig
 	Postgres PostgresConfig
 	Redis    RedisConfig
@@ -20,6 +21,12 @@ type Config struct {
 type ServerConfig struct {
 	Port    string
 	runMode string
+}
+
+type LoggerConfig struct {
+	FilePath string
+	Encoding string
+	Level    string
 }
 
 type CorsConfig struct {

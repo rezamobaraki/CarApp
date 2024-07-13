@@ -2,12 +2,13 @@ package cache
 
 import (
 	"github.com/MrRezoo/CarApp/config"
+	"github.com/MrRezoo/CarApp/pkg/logging"
 	"github.com/go-redis/redis/v8"
-	"log"
 	"time"
 )
 
 var redisClient *redis.Client
+var logger = logging.NewLogger(config.GetConfig())
 
 func InitRedis(config *config.Config) error {
 	redisClient = redis.NewClient(&redis.Options{
@@ -28,7 +29,7 @@ func InitRedis(config *config.Config) error {
 		return err
 	}
 
-	log.Printf("Redis connected to %s:%s", config.Redis.Host, config.Redis.Port)
+	logger.Info(logging.Redis, logging.Startup, "Redis connected", nil)
 	return nil
 
 }

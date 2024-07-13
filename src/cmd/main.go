@@ -5,7 +5,7 @@ import (
 	"github.com/MrRezoo/CarApp/config"
 	"github.com/MrRezoo/CarApp/data/cache"
 	"github.com/MrRezoo/CarApp/data/db"
-	"log"
+	"github.com/MrRezoo/CarApp/pkg/logging"
 )
 
 // @BasePath /v1
@@ -23,17 +23,17 @@ import (
 // @name Authorization
 func main() {
 	cfg := config.GetConfig()
-
+	logger := logging.NewLogger(cfg)
 	err := cache.InitRedis(cfg)
 	defer cache.CloseRedis()
 	if err != nil {
-		log.Fatalln("Failed to connect to Redis", err)
+		logger.Fatal(logging.Redis, logging.Startup, err.Error(), nil)
 	}
 
 	err = db.InitDB(cfg)
 	defer db.CloseDB()
 	if err != nil {
-		log.Fatalln("Failed to connect to Postgres", err)
+		logger.Fatal(logging.Postgres, logging.Startup, err.Error(), nil)
 	}
 	api.InitServer(cfg)
 }

@@ -3,13 +3,14 @@ package db
 import (
 	"fmt"
 	"github.com/MrRezoo/CarApp/config"
+	"github.com/MrRezoo/CarApp/pkg/logging"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
 	"time"
 )
 
 var dbClient *gorm.DB
+var logger = logging.NewLogger(config.GetConfig())
 
 func InitDB(config *config.Config) error {
 	connection := fmt.Sprintf(
@@ -29,7 +30,7 @@ func InitDB(config *config.Config) error {
 	sqlDB.SetMaxOpenConns(config.Postgres.MaxOpenConnections)
 	sqlDB.SetConnMaxLifetime(config.Postgres.MaxLifetime * time.Minute)
 
-	log.Printf("Postgres connected on %s:%s", config.Postgres.Host, config.Postgres.Port)
+	logger.Info(logging.Postgres, logging.Startup, "Postgres connected", nil)
 	return nil
 }
 
