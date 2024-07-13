@@ -1,3 +1,4 @@
+basePath: /api/
 definitions:
   handlers.personData:
     properties:
@@ -42,8 +43,15 @@ definitions:
       value:
         type: string
     type: object
+host: localhost:5005
 info:
-  contact: {}
+  contact:
+    email: rezam578@gmail.com
+    name: Reza Mobaraki
+    url: http://www.rezoo.ir
+  description: This is a sample Golang server CarApp server with gin
+  title: CarApp API
+  version: "1.0"
 paths:
   /v1/health/:
     get:
@@ -169,4 +177,11 @@ paths:
       summary: UserById
       tags:
       - Test
+schemes:
+- http
+securityDefinitions:
+  AuthBearer:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
