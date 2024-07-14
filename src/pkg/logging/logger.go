@@ -5,20 +5,20 @@ import "github.com/MrRezoo/CarApp/config"
 type Logger interface {
 	Init()
 
-	Info(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{})
-	InfoF(template string, args ...interface{})
+	Debug(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{})
+	Debugf(template string, args ...interface{})
 
-	Debug(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{})
-	DebugF(template string, args ...interface{})
+	Info(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{})
+	Infof(template string, args ...interface{})
 
-	Warn(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{})
-	WarnF(template string, args ...interface{})
+	Warn(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{})
+	Warnf(template string, args ...interface{})
 
-	Error(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{})
-	ErrorF(template string, args ...interface{})
+	Error(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{})
+	Errorf(template string, args ...interface{})
 
-	Fatal(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{})
-	FatalF(template string, args ...interface{})
+	Fatal(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{})
+	Fatalf(template string, args ...interface{})
 }
 
 func NewLogger(cfg *config.Config) Logger {
@@ -27,7 +27,7 @@ func NewLogger(cfg *config.Config) Logger {
 	} else if cfg.Logger.Type == "zero" {
 		return newZeroLogger(cfg)
 	}
-	panic("Logger not supported")
+	panic("logger not supported")
 }
 
-// file <- filebeat -> elastic search -> kibana
+// file <- filebeat -> elasticsearch -> kibana

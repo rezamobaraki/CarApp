@@ -2,13 +2,15 @@ package logging
 
 import (
 	"github.com/MrRezoo/CarApp/config"
-	"github.com/rs/zerolog"
 	"os"
 	"sync"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/pkgerrors"
 )
 
 var once sync.Once
-var zeroSingletonLogger *zerolog.Logger
+var zeroSinLogger *zerolog.Logger
 
 type zeroLogger struct {
 	cfg    *config.Config
@@ -39,6 +41,9 @@ func (l *zeroLogger) getLogLevel() zerolog.Level {
 
 func (l *zeroLogger) Init() {
 	once.Do(func() {
+
+		zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
+
 		file, err := os.OpenFile(l.cfg.Logger.FilePath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 		if err != nil {
 			panic("could not open log file")
@@ -48,76 +53,90 @@ func (l *zeroLogger) Init() {
 			With().
 			Timestamp().
 			Str("AppName", "CarApp").
-			Str("LoggerName", "ZeroLog").
+			Str("LoggerName", "Zerolog").
 			Logger()
 		zerolog.SetGlobalLevel(l.getLogLevel())
-		zeroSingletonLogger = &logger
+		zeroSinLogger = &logger
 	})
-	l.logger = zeroSingletonLogger
-
+	l.logger = zeroSinLogger
 }
 
-func (l *zeroLogger) Info(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{}) {
-	l.logger.
-		Info().
-		Str("Category", string(category)).
-		Str("SubCategory", string(subCategory)).
-		Fields(logParamsToZeroParams(extra)).
-		Msg(message)
-}
+func (l *zeroLogger) Debug(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{}) {
 
-func (l *zeroLogger) InfoF(template string, args ...interface{}) {
-	l.logger.Info().Msgf(template, args...)
-}
-
-func (l *zeroLogger) Debug(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{}) {
 	l.logger.
 		Debug().
-		Str("Category", string(category)).
-		Str("SubCategory", string(subCategory)).
+		Str("Category", string(cat)).
+		Str("SubCategory", string(sub)).
 		Fields(logParamsToZeroParams(extra)).
-		Msg(message)
+		Msg(msg)
 }
 
-func (l *zeroLogger) DebugF(template string, args ...interface{}) {
-	l.logger.Debug().Msgf(template, args...)
+func (l *zeroLogger) Debugf(template string, args ...interface{}) {
+	l.logger.
+		Debug().
+		Msgf(template, args...)
 }
 
-func (l *zeroLogger) Warn(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{}) {
+func (l *zeroLogger) Info(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{}) {
+
+	l.logger.
+		Info().
+		Str("Category", string(cat)).
+		Str("SubCategory", string(sub)).
+		Fields(logParamsToZeroParams(extra)).
+		Msg(msg)
+}
+
+func (l *zeroLogger) Infof(template string, args ...interface{}) {
+	l.logger.
+		Info().
+		Msgf(template, args...)
+}
+
+func (l *zeroLogger) Warn(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{}) {
+
 	l.logger.
 		Warn().
-		Str("Category", string(category)).
-		Str("SubCategory", string(subCategory)).
+		Str("Category", string(cat)).
+		Str("SubCategory", string(sub)).
 		Fields(logParamsToZeroParams(extra)).
-		Msg(message)
+		Msg(msg)
 }
 
-func (l *zeroLogger) WarnF(template string, args ...interface{}) {
-	l.logger.Warn().Msgf(template, args...)
+func (l *zeroLogger) Warnf(template string, args ...interface{}) {
+	l.logger.
+		Warn().
+		Msgf(template, args...)
 }
 
-func (l *zeroLogger) Error(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{}) {
+func (l *zeroLogger) Error(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{}) {
+
 	l.logger.
 		Error().
-		Str("Category", string(category)).
-		Str("SubCategory", string(subCategory)).
+		Str("Category", string(cat)).
+		Str("SubCategory", string(sub)).
 		Fields(logParamsToZeroParams(extra)).
-		Msg(message)
+		Msg(msg)
 }
 
-func (l *zeroLogger) ErrorF(template string, args ...interface{}) {
-	l.logger.Error().Msgf(template, args...)
+func (l *zeroLogger) Errorf(template string, args ...interface{}) {
+	l.logger.
+		Error().
+		Msgf(template, args...)
 }
 
-func (l *zeroLogger) Fatal(category Category, subCategory SubCategory, message string, extra map[ExtraKey]interface{}) {
+func (l *zeroLogger) Fatal(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{}) {
+
 	l.logger.
 		Fatal().
-		Str("Category", string(category)).
-		Str("SubCategory", string(subCategory)).
+		Str("Category", string(cat)).
+		Str("SubCategory", string(sub)).
 		Fields(logParamsToZeroParams(extra)).
-		Msg(message)
+		Msg(msg)
 }
 
-func (l *zeroLogger) FatalF(template string, args ...interface{}) {
-	l.logger.Fatal().Msgf(template, args...)
+func (l *zeroLogger) Fatalf(template string, args ...interface{}) {
+	l.logger.
+		Fatal().
+		Msgf(template, args...)
 }
