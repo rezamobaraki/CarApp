@@ -22,7 +22,12 @@ type Logger interface {
 }
 
 func NewLogger(cfg *config.Config) Logger {
-	return newZapLogger(cfg)
+	if cfg.Logger.Type == "zap" {
+		return newZapLogger(cfg)
+	} else if cfg.Logger.Type == "zero" {
+		return newZeroLogger(cfg)
+	}
+	panic("Logger not supported")
 }
 
 // file <- filebeat -> elastic search -> kibana

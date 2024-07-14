@@ -27,6 +27,7 @@ type LoggerConfig struct {
 	FilePath string
 	Encoding string
 	Level    string
+	Type     string
 }
 
 type CorsConfig struct {

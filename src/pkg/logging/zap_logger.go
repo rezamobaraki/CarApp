@@ -7,6 +7,8 @@ import (
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
+var zapSingletonLogger *zap.SugaredLogger
+
 var logLevelMapping = map[string]zapcore.Level{
 	"debug": zapcore.DebugLevel,
 	"info":  zapcore.InfoLevel,
@@ -35,23 +37,27 @@ func (logger *zapLogger) getLogLevel() zapcore.Level {
 }
 
 func (logger *zapLogger) Init() {
-	writeSyncer := zapcore.AddSync(&lumberjack.Logger{
-		Filename:   logger.cfg.Logger.FilePath,
-		MaxSize:    1,
-		MaxAge:     5,
-		LocalTime:  true,
-		MaxBackups: 10,
-		Compress:   true,
+	once.Do(func() {
+		writeSyncer := zapcore.AddSync(&lumberjack.Logger{
+			Filename:   logger.cfg.Logger.FilePath,
+			MaxSize:    1,
+			MaxAge:     5,
+			LocalTime:  true,
+			MaxBackups: 10,
+			Compress:   true,
+		})
+		encoderConfig := zap.NewProductionEncoderConfig()
+		encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+		core := zapcore.NewCore(
+			zapcore.NewJSONEncoder(encoderConfig),
+			writeSyncer,
+			logger.getLogLevel(),
+		)
+		zapLogger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(zapcore.ErrorLevel)).Sugar()
+		zapLogger = zapLogger.With("AppName", "CarApp", "LoggerName", "ZapLogger")
+		zapSingletonLogger = zapLogger
 	})
-	encoderConfig := zap.NewProductionEncoderConfig()
-	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
-	core := zapcore.NewCore(
-		zapcore.NewJSONEncoder(encoderConfig),
-		writeSyncer,
-		logger.getLogLevel(),
-	)
-	zapLogger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(zapcore.ErrorLevel)).Sugar()
-	logger.logger = zapLogger
+	logger.logger = zapSingletonLogger
 
 }
 
