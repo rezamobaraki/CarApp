@@ -110,8 +110,8 @@ func prepareLogKeys(category Category, subCategory SubCategory, extra map[ExtraK
 	if extra == nil {
 		extra = make(map[ExtraKey]interface{}, 2)
 	}
-	extra["category"] = category
-	extra["subCategory"] = subCategory
+	extra["Category"] = category
+	extra["SubCategory"] = subCategory
 	params := logParamsToZapParams(extra)
 	return params
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/MrRezoo/CarApp/api/validations"
 	"github.com/MrRezoo/CarApp/config"
 	"github.com/MrRezoo/CarApp/docs"
+	"github.com/MrRezoo/CarApp/pkg/logging"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
@@ -21,7 +22,8 @@ func InitServer(cfg *config.Config) {
 	RegisterMiddlewares(engine, cfg)
 	RegisterRoutes(engine)
 	RegisterSwagger(engine, cfg)
-
+	logger := logging.NewLogger(cfg)
+	logger.Info(logging.General, logging.Startup, "Server Started", nil)
 	engine.Run(fmt.Sprintf(":%s", cfg.Server.Port))
 }
 
@@ -44,6 +46,7 @@ func RegisterRoutes(engine *gin.Engine) {
 }
 
 func RegisterMiddlewares(engine *gin.Engine, cfg *config.Config) {
+	engine.Use(middlewares.DefaultStructuredLogger(cfg))
 	engine.Use(middlewares.Cors(cfg))
 	engine.Use(gin.Logger(), gin.Recovery() /*middlewares.TestMiddleware()*/, middlewares.LimitByRequestCount())
 }

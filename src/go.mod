@@ -17,7 +17,10 @@ require (
 	gorm.io/gorm v1.25.11
 )
 
-require github.com/mattn/go-colorable v0.1.13 // indirect
+require (
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+)
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
