@@ -1,5 +1,5 @@
 version: '3.9'
-
+name: webapi
 services:
 
   ####################### SETUP #######################
@@ -77,7 +77,6 @@ services:
       - ../src/logs:/var/log/filebeat/service
       - logs:/var/log/filebeat
       - logs:/app:ro
-
     environment:
       FILEBEAT_INTERNAL_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
       BEATS_SYSTEM_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
@@ -92,8 +91,8 @@ services:
     container_name: postgres_container
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: car_sale_db
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: car_sale
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
