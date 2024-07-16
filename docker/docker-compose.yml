@@ -1,7 +1,7 @@
-version: '3.7'
-name: webapi
+version: '3.9'
+
 services:
-  
+
   ####################### SETUP #######################
   setup:
     build:
@@ -22,7 +22,7 @@ services:
       - webapi_network
     depends_on:
       - elasticsearch
-  
+
   ####################### ELK #######################
   elasticsearch:
     build:
@@ -92,8 +92,8 @@ services:
     container_name: postgres_container
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: car_sale
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: car_sale_db
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
@@ -112,13 +112,13 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:
-      - "5050:80"
+      - "8090:80"
     networks:
       - webapi_network
     restart: unless-stopped
     depends_on:
       - postgres
-  
+
   ####################### REDIS #######################
   redis:
     image: redis:7.2

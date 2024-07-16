@@ -5,6 +5,7 @@ import (
 	"github.com/MrRezoo/CarApp/config"
 	"github.com/MrRezoo/CarApp/data/cache"
 	"github.com/MrRezoo/CarApp/data/db"
+	"github.com/MrRezoo/CarApp/data/db/migrations"
 	"github.com/MrRezoo/CarApp/pkg/logging"
 )
 
@@ -35,5 +36,7 @@ func main() {
 	if err != nil {
 		logger.Fatal(logging.Postgres, logging.Startup, err.Error(), nil)
 	}
+	migrations.Up()
+
 	api.InitServer(cfg)
 }
