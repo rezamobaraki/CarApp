@@ -1,4 +1,4 @@
-Server:
+server:
   port: 5005
   runMode: debug
 logger:
@@ -29,10 +29,14 @@ redis:
   poolSize: 10
   poolTimeout: 15
   idleCheckFrequency: 60
-Password:
+password:
   IncludeChars: true
   IncludeDigits: true
   IncludeUppers: true
   IncludeLowers: true
   minLength: 8
   maxLength: 16
+otp:
+  expireTime: 120
+  digits: 6
+  limiter: 100

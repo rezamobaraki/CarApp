@@ -16,6 +16,7 @@ type Config struct {
 	Postgres PostgresConfig
 	Redis    RedisConfig
 	Password PasswordConfig
+	OTP      OTPConfig
 }
 
 type ServerConfig struct {
@@ -67,6 +68,12 @@ type PasswordConfig struct {
 	IncludeLowers bool
 	MinLength     int
 	MaxLength     int
+}
+
+type OTPConfig struct {
+	Digits      int
+	ExpiresTime time.Duration
+	Limiter     time.Duration
 }
 
 func GetConfig() *Config {

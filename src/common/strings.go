@@ -2,18 +2,28 @@ package common
 
 import (
 	"github.com/MrRezoo/CarApp/config"
+	"math"
 	"math/rand"
 	"regexp"
+	"strconv"
+	"strings"
 	"time"
 	"unicode"
 )
 
-var (
-	lowerCharSet = "abcdefghijklmnopqrstuvwxyz"
-	upperCharSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	digitCharSet = "0123456789"
-	allCharSet   = lowerCharSet + upperCharSet + digitCharSet
-)
+var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
+var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
+
+func GenerateOtp() string {
+	cfg := config.GetConfig()
+	seed := time.Now().UnixNano()
+	rng := rand.New(rand.NewSource(seed))
+	minNum := int(math.Pow(10, float64(cfg.OTP.Digits-1)))   // 10^d-1 100000
+	maxNum := int(math.Pow(10, float64(cfg.OTP.Digits)) - 1) // 999999 = 1000000 - 1 (10^d) -1
+
+	var num = rng.Intn(maxNum-minNum+1) + minNum
+	return strconv.Itoa(num)
+}
 
 func CheckPassword(password string) bool {
 	conf := config.GetConfig()
@@ -24,7 +34,6 @@ func CheckPassword(password string) bool {
 
 	if conf.Password.IncludeDigits && !hasDigits(password) {
 		return false
-
 	}
 
 	if conf.Password.IncludeUppers && !hasUppers(password) {
@@ -114,4 +123,11 @@ func shuffleString(str string) string {
 		runes = runes[:n-1]
 	}
 	return string(runes)
+}
+
+// To snake case : CountryId -> country_id
+func ToSnakeCase(str string) string {
+	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
+	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
+	return strings.ToLower(snake)
 }
