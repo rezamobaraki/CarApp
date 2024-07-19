@@ -8,9 +8,9 @@ import (
 )
 
 func LimitByRequestCount() gin.HandlerFunc {
-	limitter := tollbooth.NewLimiter(1, nil)
+	limiter := tollbooth.NewLimiter(1, nil)
 	return func(context *gin.Context) {
-		httpError := tollbooth.LimitByRequest(limitter, context.Writer, context.Request)
+		httpError := tollbooth.LimitByRequest(limiter, context.Writer, context.Request)
 		if httpError != nil {
 			context.AbortWithStatusJSON(http.StatusTooManyRequests,
 				helper.GenerateBaseResponseWithError(nil, false, -100, httpError),
