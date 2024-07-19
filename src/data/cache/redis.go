@@ -52,7 +52,7 @@ func Set[T any](c *redis.Client, key string, value T, expiration time.Duration) 
 }
 
 func Get[T any](c *redis.Client, key string) (T, error) {
-	var dest = *new(T)
+	var dest T = *new(T)
 	v, err := c.Get(c.Context(), key).Result()
 	if err != nil {
 		return dest, err
@@ -62,5 +62,4 @@ func Get[T any](c *redis.Client, key string) (T, error) {
 		return dest, err
 	}
 	return dest, nil
-
 }
