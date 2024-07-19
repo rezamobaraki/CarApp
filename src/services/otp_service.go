@@ -41,7 +41,9 @@ func (s *OTPService) SetOTP(mobileNumber string, otp string) error {
 	} else if err == nil && res.Used {
 		return &service_errors.ServiceError{EndUserMessage: service_errors.OTPUsed}
 	}
-	err = cache.Set(s.redisClient, key, val, s.cfg.OTP.ExpiresTime*time.Second)
+	fmt.Println(s.cfg.OTP.ExpireTime * time.Second)
+	fmt.Println(s.cfg.OTP.ExpireTime)
+	err = cache.Set(s.redisClient, key, val, s.cfg.OTP.ExpireTime*time.Second)
 	if err != nil {
 		return err
 	}
@@ -61,5 +63,5 @@ func (s *OTPService) ValidateOTP(mobileNumber string, otp string) error {
 		return &service_errors.ServiceError{EndUserMessage: service_errors.OTONotValid}
 	}
 	res.Used = true
-	return cache.Set(s.redisClient, key, res, s.cfg.OTP.ExpiresTime*time.Second)
+	return cache.Set(s.redisClient, key, res, s.cfg.OTP.ExpireTime*time.Second)
 }

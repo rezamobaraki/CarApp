@@ -71,9 +71,9 @@ type PasswordConfig struct {
 }
 
 type OTPConfig struct {
-	Digits      int
-	ExpiresTime time.Duration
-	Limiter     time.Duration
+	Digits     int
+	ExpireTime time.Duration
+	Limiter    time.Duration
 }
 
 func GetConfig() *Config {

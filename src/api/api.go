@@ -20,21 +20,23 @@ func InitServer(cfg *config.Config) {
 
 	RegisterValidators()
 	RegisterMiddlewares(engine, cfg)
-	RegisterRoutes(engine)
+	RegisterRoutes(engine, cfg)
 	RegisterSwagger(engine, cfg)
 	logger := logging.NewLogger(cfg)
 	logger.Info(logging.General, logging.Startup, "Server Started", nil)
 	engine.Run(fmt.Sprintf(":%s", cfg.Server.Port))
 }
 
-func RegisterRoutes(engine *gin.Engine) {
+func RegisterRoutes(engine *gin.Engine, cfg *config.Config) {
 	api := engine.Group("/api/")
 	v1 := api.Group("/v1/")
 	{
 		health := v1.Group("/health/")
 		test := v1.Group("/test/")
+		users := v1.Group("/users/")
 		routers.Health(health)
 		routers.TestRouter(test)
+		routers.Users(users, cfg)
 	}
 
 	v2 := api.Group("/v2")
