@@ -2,8 +2,8 @@ package db
 
 import (
 	"fmt"
-	"github.com/MrRezoo/CarApp/config"
-	"github.com/MrRezoo/CarApp/pkg/logging"
+	"github.com/rezamobaraki/CarApp/config"
+	"github.com/rezamobaraki/CarApp/pkg/logging"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"time"

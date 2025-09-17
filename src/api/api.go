@@ -2,12 +2,12 @@ package api
 
 import (
 	"fmt"
-	"github.com/MrRezoo/CarApp/api/middlewares"
-	"github.com/MrRezoo/CarApp/api/routers"
-	"github.com/MrRezoo/CarApp/api/validations"
-	"github.com/MrRezoo/CarApp/config"
-	"github.com/MrRezoo/CarApp/docs"
-	"github.com/MrRezoo/CarApp/pkg/logging"
+	"github.com/rezamobaraki/CarApp/api/middlewares"
+	"github.com/rezamobaraki/CarApp/api/routers"
+	"github.com/rezamobaraki/CarApp/api/validations"
+	"github.com/rezamobaraki/CarApp/config"
+	"github.com/rezamobaraki/CarApp/docs"
+	"github.com/rezamobaraki/CarApp/pkg/logging"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"

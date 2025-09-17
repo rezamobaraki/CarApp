@@ -1,6 +1,6 @@
 package logging
 
-import "github.com/MrRezoo/CarApp/config"
+import "github.com/rezamobaraki/CarApp/config"
 
 type Logger interface {
 	Init()

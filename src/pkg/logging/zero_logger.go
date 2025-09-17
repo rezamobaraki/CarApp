@@ -1,7 +1,7 @@
 package logging
 
 import (
-	"github.com/MrRezoo/CarApp/config"
+	"github.com/rezamobaraki/CarApp/config"
 	"os"
 	"sync"
 

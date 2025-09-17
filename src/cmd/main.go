@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/MrRezoo/CarApp/api"
-	"github.com/MrRezoo/CarApp/config"
-	"github.com/MrRezoo/CarApp/data/cache"
-	"github.com/MrRezoo/CarApp/data/db"
-	"github.com/MrRezoo/CarApp/data/db/migrations"
-	"github.com/MrRezoo/CarApp/pkg/logging"
+	"github.com/rezamobaraki/CarApp/api"
+	"github.com/rezamobaraki/CarApp/config"
+	"github.com/rezamobaraki/CarApp/data/cache"
+	"github.com/rezamobaraki/CarApp/data/db"
+	"github.com/rezamobaraki/CarApp/data/db/migrations"
+	"github.com/rezamobaraki/CarApp/pkg/logging"
 )
 
 // @BasePath /v1
@@ -14,7 +14,7 @@ import (
 // @description This is a sample Golang server CarApp server with gin
 // @contact.name Reza Mobaraki
 // @contact.email rezam578@gmail.com
-// @contact.url http://www.rezoo.ir
+// @contact.url https://linkedin.com/in/reza-mobaraki
 // @version 1.0
 // @schemes http
 // @host localhost:5005

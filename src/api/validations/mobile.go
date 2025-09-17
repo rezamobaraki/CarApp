@@ -1,7 +1,7 @@
 package validations
 
 import (
-	"github.com/MrRezoo/CarApp/common"
+	"github.com/rezamobaraki/CarApp/common"
 	"github.com/go-playground/validator/v10"
 )
 

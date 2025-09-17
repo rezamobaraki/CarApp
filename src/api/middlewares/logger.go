@@ -2,8 +2,8 @@ package middlewares
 
 import (
 	"bytes"
-	"github.com/MrRezoo/CarApp/config"
-	"github.com/MrRezoo/CarApp/pkg/logging"
+	"github.com/rezamobaraki/CarApp/config"
+	"github.com/rezamobaraki/CarApp/pkg/logging"
 	"io"
 	"strings"
 	"time"

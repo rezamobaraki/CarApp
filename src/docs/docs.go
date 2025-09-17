@@ -11,7 +11,7 @@ const docTemplate = `{
         "title": "{{.Title}}",
         "contact": {
             "name": "Reza Mobaraki",
-            "url": "http://www.rezoo.ir",
+            "url": "https://linkedin.com/in/reza-mobaraki",
             "email": "rezam578@gmail.com"
         },
         "version": "{{.Version}}"
@@ -107,9 +107,7 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "validationErrors": {
-                                            "type": "object"
-                                        }
+                                        "validationErrors": {}
                                     }
                                 }
                             ]
@@ -169,9 +167,7 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "validationErrors": {
-                                            "type": "object"
-                                        }
+                                        "validationErrors": {}
                                     }
                                 }
                             ]

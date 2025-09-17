@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"github.com/MrRezoo/CarApp/pkg/service_errors"
+	"github.com/rezamobaraki/CarApp/pkg/service_errors"
 	"net/http"
 )
 

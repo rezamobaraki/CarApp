@@ -1,7 +1,7 @@
 package logging
 
 import (
-	"github.com/MrRezoo/CarApp/config"
+	"github.com/rezamobaraki/CarApp/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
