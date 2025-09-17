@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/MrRezoo/CarApp/api/helper"
+	"github.com/rezamobaraki/CarApp/api/helper"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
