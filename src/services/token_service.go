@@ -1,10 +1,10 @@
 package services
 
 import (
-	"github.com/MrRezoo/CarApp/api/dto"
-	"github.com/MrRezoo/CarApp/config"
-	"github.com/MrRezoo/CarApp/pkg/logging"
-	"github.com/MrRezoo/CarApp/pkg/service_errors"
+	"github.com/rezamobaraki/CarApp/api/dto"
+	"github.com/rezamobaraki/CarApp/config"
+	"github.com/rezamobaraki/CarApp/pkg/logging"
+	"github.com/rezamobaraki/CarApp/pkg/service_errors"
 	"github.com/golang-jwt/jwt"
 	"time"
 )

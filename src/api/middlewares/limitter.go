@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"github.com/MrRezoo/CarApp/api/helper"
+	"github.com/rezamobaraki/CarApp/api/helper"
 	"github.com/didip/tollbooth"
 	"github.com/gin-gonic/gin"
 	"net/http"

@@ -1,6 +1,6 @@
 package helper
 
-import "github.com/MrRezoo/CarApp/api/validations"
+import "github.com/rezamobaraki/CarApp/api/validations"
 
 type BaseHttpResponse struct {
 	Result           any                            `json:"result"`

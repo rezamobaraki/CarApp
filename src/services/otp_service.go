@@ -2,11 +2,11 @@ package services
 
 import (
 	"fmt"
-	"github.com/MrRezoo/CarApp/config"
-	"github.com/MrRezoo/CarApp/constants"
-	"github.com/MrRezoo/CarApp/data/cache"
-	"github.com/MrRezoo/CarApp/pkg/logging"
-	"github.com/MrRezoo/CarApp/pkg/service_errors"
+	"github.com/rezamobaraki/CarApp/config"
+	"github.com/rezamobaraki/CarApp/constants"
+	"github.com/rezamobaraki/CarApp/data/cache"
+	"github.com/rezamobaraki/CarApp/pkg/logging"
+	"github.com/rezamobaraki/CarApp/pkg/service_errors"
 	"github.com/go-redis/redis/v8"
 	"time"
 )

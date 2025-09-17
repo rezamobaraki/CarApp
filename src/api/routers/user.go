@@ -1,9 +1,9 @@
 package routers
 
 import (
-	"github.com/MrRezoo/CarApp/api/handlers"
-	"github.com/MrRezoo/CarApp/api/middlewares"
-	"github.com/MrRezoo/CarApp/config"
+	"github.com/rezamobaraki/CarApp/api/handlers"
+	"github.com/rezamobaraki/CarApp/api/middlewares"
+	"github.com/rezamobaraki/CarApp/config"
 	"github.com/gin-gonic/gin"
 )
 

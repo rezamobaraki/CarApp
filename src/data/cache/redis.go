@@ -2,8 +2,8 @@ package cache
 
 import (
 	"encoding/json"
-	"github.com/MrRezoo/CarApp/config"
-	"github.com/MrRezoo/CarApp/pkg/logging"
+	"github.com/rezamobaraki/CarApp/config"
+	"github.com/rezamobaraki/CarApp/pkg/logging"
 	"github.com/go-redis/redis/v8"
 	"time"
 )

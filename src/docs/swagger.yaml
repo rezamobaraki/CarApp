@@ -7,7 +7,7 @@ definitions:
         minLength: 11
         type: string
     required:
-      - mobile_number
+    - mobile_number
     type: object
   handlers.personData:
     properties:
@@ -43,26 +43,26 @@ definitions:
     type: object
   helper.ResultCode:
     enum:
-      - 0
-      - 40001
-      - 40101
-      - 40301
-      - 40401
-      - 42901
-      - 42902
-      - 50001
-      - 50002
+    - 0
+    - 40001
+    - 40101
+    - 40301
+    - 40401
+    - 42901
+    - 42902
+    - 50001
+    - 50002
     type: integer
     x-enum-varnames:
-      - Success
-      - ValidationError
-      - AuthError
-      - ForbiddenError
-      - NotFoundError
-      - LimiterError
-      - OtpLimiterError
-      - CustomRecovery
-      - InternalError
+    - Success
+    - ValidationError
+    - AuthError
+    - ForbiddenError
+    - NotFoundError
+    - LimiterError
+    - OtpLimiterError
+    - CustomRecovery
+    - InternalError
   validations.ValidationError:
     properties:
       message:
@@ -79,7 +79,7 @@ info:
   contact:
     email: rezam578@gmail.com
     name: Reza Mobaraki
-    url: http://www.rezoo.ir
+    url: https://linkedin.com/in/reza-mobaraki
   description: This is a sample Golang server CarApp server with gin
   title: CarApp API
   version: "1.0"
@@ -134,8 +134,7 @@ paths:
             allOf:
             - $ref: '#/definitions/helper.BaseHttpResponse'
             - properties:
-                validationErrors:
-                  type: object
+                validationErrors: {}
               type: object
         "400":
           description: Failed
@@ -171,8 +170,7 @@ paths:
             allOf:
             - $ref: '#/definitions/helper.BaseHttpResponse'
             - properties:
-                validationErrors:
-                  type: object
+                validationErrors: {}
               type: object
         "400":
           description: Failed
@@ -211,17 +209,17 @@ paths:
   /v1/users/send-otp/:
     post:
       consumes:
-        - application/json
+      - application/json
       description: Send OTP to user
       parameters:
-        - description: User details for OTP
-          in: body
-          name: request
-          required: true
-          schema:
-            $ref: '#/definitions/dto.GetUserRequest'
+      - description: User details for OTP
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GetUserRequest'
       produces:
-        - application/json
+      - application/json
       responses:
         "201":
           description: Created
@@ -237,7 +235,7 @@ paths:
             $ref: '#/definitions/helper.BaseHttpResponse'
       summary: Send OTP
       tags:
-        - User
+      - User
 schemes:
 - http
 securityDefinitions:

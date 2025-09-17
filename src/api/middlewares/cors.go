@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"github.com/MrRezoo/CarApp/config"
+	"github.com/rezamobaraki/CarApp/config"
 	"github.com/gin-gonic/gin"
 )
 
