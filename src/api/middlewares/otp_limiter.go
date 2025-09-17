@@ -2,9 +2,9 @@ package middlewares
 
 import (
 	"errors"
-	"github.com/MrRezoo/CarApp/api/helper"
-	"github.com/MrRezoo/CarApp/config"
-	"github.com/MrRezoo/CarApp/pkg/limiter"
+	"github.com/rezamobaraki/CarApp/api/helper"
+	"github.com/rezamobaraki/CarApp/config"
+	"github.com/rezamobaraki/CarApp/pkg/limiter"
 	"net/http"
 	"time"
 

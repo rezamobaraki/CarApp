@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/MrRezoo/CarApp/config"
+	"github.com/rezamobaraki/CarApp/config"
 	"math"
 	"math/rand"
 	"regexp"
